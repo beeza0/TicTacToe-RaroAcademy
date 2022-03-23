@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import './Main.css';
+import { MainContainer } from "./styles";
 
 const Main: FC = () => {
   return (
-    <div className='main-container'>
+    <MainContainer>
       ESCREVER O CONTEUDO AQUI
-    </div>
+    </MainContainer>
   );
 }
 
