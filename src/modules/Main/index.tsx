@@ -1,35 +1,42 @@
 import { FC, useState } from 'react';
 import { MainContainer, GameTitle, GameContainer } from "./styles";
+import { Game } from '../../models/models'
 import Line from '../../components/Line'
 
 const Main: FC = () => {
 
-  interface Player {
-    name: string,
-    score: number,
-    moves: Array<number>
+  const [gameState, setGameState] = useState<Game>({
+    firstPlayerTurn: true,
+    gameEnded: false,  
+    player1: {
+      name: '',
+      score: 0,
+      moves: []
+    },
+    player2: {
+      name: '',
+      score: 0,
+      moves: []
+    } 
+  })
+
+  const linesIds = [1, 2, 3]
+
+  const changeGameState = (squareId: number) : void => {
+    console.log(squareId);
+    // setGame({})    
   }
 
-  const [player1, setPlayer1] = useState<Player>({
-    name: '',
-    score: 0,
-    moves: []
-  })
-
-  const [player2, setPlayer2] = useState<Player>({
-    name: '',
-    score: 0,
-    moves: []
-  })
-
+  const renderLines = () : Array<JSX.Element> => 
+    linesIds.map((id) => {
+      return <Line lineId={id} gameState={gameState} changeGameState={changeGameState}/>
+    })
 
   return (
     <MainContainer>
       <GameTitle>Tic Tac Toe</GameTitle>
       <GameContainer>
-        <Line/>
-        <Line/>
-        <Line/>
+        {renderLines()}
       </GameContainer>
     </MainContainer>
   );
