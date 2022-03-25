@@ -6,7 +6,7 @@ import { Game } from '../../models/models'
 interface ILineProps {
     lineId: number,
     gameState: Game,
-    changeGameState: (line: number, colunm: number) => void
+    changeGameState: (squareId: number) => void
 }
 
 const Line: FC<ILineProps> = ({lineId, gameState, changeGameState}) => {

@@ -23,8 +23,17 @@ const Main: FC = () => {
   const linesIds = [1, 2, 3]
 
   const changeGameState = (squareId: number) : void => {
-    console.log(squareId);
-    // setGame({})    
+    if(gameState.firstPlayerTurn) {
+      let aux = gameState.player1.moves
+      aux.push(squareId)
+      setGameState({...gameState, firstPlayerTurn: !gameState.firstPlayerTurn, player1: {...gameState.player1, moves: aux}})   
+    }
+    else {
+      let aux = gameState.player2.moves
+      aux.push(squareId)
+      setGameState({...gameState, firstPlayerTurn: !gameState.firstPlayerTurn, player2: {...gameState.player2, moves: aux}})   
+   
+    }
   }
 
   const renderLines = () : Array<JSX.Element> => 

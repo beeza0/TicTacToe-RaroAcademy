@@ -5,14 +5,14 @@ import { Game } from '../../models/models'
 interface ISquareProps {
   squareId: number,
   gameState: Game,
-  changeGameState: (line: number, colunm: number) => void
+  changeGameState: (squareId: number) => void
 }
 
 const Square: FC<ISquareProps> = ({squareId, gameState, changeGameState}) => {
   return (
-    <SquareContainer>
-      {console.log(squareId)}
-        <Symbol>X</Symbol>
+    <SquareContainer onClick={() => changeGameState(squareId)}>
+        {gameState.player1.moves.includes(squareId) && <Symbol>X</Symbol>}
+        {gameState.player2.moves.includes(squareId) && <Symbol>O</Symbol>}
     </SquareContainer>
   );
 }
