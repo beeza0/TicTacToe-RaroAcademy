@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SquareContainer = styled.div`
+export const SquareContainer = styled.div<{ selected: boolean}>`
     height: 9em;
     width: 9em;
     background-color: yellow;
@@ -9,26 +9,14 @@ export const SquareContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: ${props => (props.selected ? 'default' : 'pointer')};
     &:hover {
-        background-color: red;
+        background-color: ${props => (props.selected ? '' : 'red')};
     }
 }
 `
 
 export const Symbol = styled.span`
     font-size: 8em;
-}
-`
-
-export const SelectedSquareContainer = styled.div`
-    height: 9em;
-    width: 9em;
-    background-color: yellow;
-    border: solid;
-    border-color: gray;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 `

@@ -1,7 +1,9 @@
 import { FC, useState } from 'react';
-import { MainContainer, GameTitle, GameContainer } from "./styles";
+import { MainContainer, GameTitle, GameContainer, RestartButton } from "./styles";
 import { Game } from '../../models/models'
 import Line from '../../components/Line'
+
+// 1 4 9 2 8 18 3 12 27
 
 const Main: FC = () => {
 
@@ -36,6 +38,10 @@ const Main: FC = () => {
     }
   }
 
+  const restartGame = () : void => {
+    setGameState({firstPlayerTurn: true, gameEnded: false, player1: {...gameState.player1, moves: []}, player2: {...gameState.player2, moves: []}})
+  }
+
   const renderLines = () : Array<JSX.Element> => 
     linesIds.map((id) => {
       return <Line lineId={id} gameState={gameState} changeGameState={changeGameState}/>
@@ -47,6 +53,9 @@ const Main: FC = () => {
       <GameContainer>
         {renderLines()}
       </GameContainer>
+      <RestartButton onClick={restartGame}>
+        Restart
+      </RestartButton>
     </MainContainer>
   );
 }

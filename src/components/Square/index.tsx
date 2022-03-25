@@ -9,10 +9,14 @@ interface ISquareProps {
 }
 
 const Square: FC<ISquareProps> = ({squareId, gameState, changeGameState}) => {
+
+  const player1Selected = gameState.player1.moves.includes(squareId)
+  const player2Selected = gameState.player2.moves.includes(squareId)
+
   return (
-    <SquareContainer onClick={() => changeGameState(squareId)}>
-        {gameState.player1.moves.includes(squareId) && <Symbol>X</Symbol>}
-        {gameState.player2.moves.includes(squareId) && <Symbol>O</Symbol>}
+    <SquareContainer selected={(player1Selected || player2Selected)} onClick={() => (player1Selected || player2Selected) ? '' : changeGameState(squareId)}>
+        {player1Selected && <Symbol>X</Symbol>}
+        {player2Selected && <Symbol>O</Symbol>}
     </SquareContainer>
   );
 }
