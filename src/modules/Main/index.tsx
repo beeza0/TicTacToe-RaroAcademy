@@ -1,6 +1,7 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { MainContainer, GameTitle, GameContainer, RestartButton } from "./styles";
 import { Game } from '../../models/models'
+import intersection from '../../utils/intersection';
 import Line from '../../components/Line'
 
 // 1 4 9 2 8 18 3 12 27
@@ -9,7 +10,8 @@ const Main: FC = () => {
 
   const [gameState, setGameState] = useState<Game>({
     firstPlayerTurn: true,
-    gameEnded: false,  
+    gameEnded: false,
+    winner: '',  
     player1: {
       name: '',
       score: 0,
@@ -23,6 +25,18 @@ const Main: FC = () => {
   })
 
   const linesIds = [1, 2, 3]
+
+  const winCases = [
+    [1, 4, 9], [2, 8, 18], [3, 12, 27],
+    [1, 2, 3], [4, 8, 12], [9, 18, 27], 
+    [1, 8, 27], [9, 8, 3] 
+  ]
+
+  useEffect(() => {
+    if(checkIfWon()) {
+      setGameState({...gameState, gameEnded: true, winner: !gameState.firstPlayerTurn ? 'player1' : 'player2'})
+    }    
+  }, [gameState.player1, gameState.player2])
 
   const changeGameState = (squareId: number) : void => {
     if(gameState.firstPlayerTurn) {
@@ -39,7 +53,16 @@ const Main: FC = () => {
   }
 
   const restartGame = () : void => {
-    setGameState({firstPlayerTurn: true, gameEnded: false, player1: {...gameState.player1, moves: []}, player2: {...gameState.player2, moves: []}})
+    setGameState({firstPlayerTurn: true, gameEnded: false, winner: '', player1: {...gameState.player1, moves: []}, player2: {...gameState.player2, moves: []}})
+  }
+
+  const checkIfWon = () : boolean => {
+    let aux = false
+    winCases.forEach((winCase: Array<number>) => {
+      if(intersection(gameState.player1.moves, winCase).sort().join(',') === winCase.sort().join(',')) aux = true
+      else if(intersection(gameState.player2.moves, winCase).sort().join(',') === winCase.sort().join(',')) aux = true
+    })
+    return aux
   }
 
   const renderLines = () : Array<JSX.Element> => 
@@ -50,6 +73,7 @@ const Main: FC = () => {
   return (
     <MainContainer>
       <GameTitle>Tic Tac Toe</GameTitle>
+      {gameState.gameEnded && <div>CABOUUUUUUUUUUUUUUU, {gameState.winner} ganhou!!</div>}
       <GameContainer>
         {renderLines()}
       </GameContainer>

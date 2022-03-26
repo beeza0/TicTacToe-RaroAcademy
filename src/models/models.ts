@@ -7,6 +7,7 @@ export interface Player {
 export interface Game {
     firstPlayerTurn: boolean,
     gameEnded: boolean,
+    winner: string,
     player1: Player,
     player2: Player  
   }
