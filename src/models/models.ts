@@ -1,6 +1,5 @@
 export interface Player {
     name: string,
-    score: number,
     moves: Array<number>
 }
 
@@ -10,4 +9,16 @@ export interface Game {
     winner: string,
     player1: Player,
     player2: Player  
+}
+
+export interface ILineProps {
+    lineId: number,
+    gameState: Game,
+    changeGameState: (squareId: number) => void
+}
+
+export interface ISquareProps {
+    squareId: number,
+    gameState: Game,
+    changeGameState: (squareId: number) => void
   }

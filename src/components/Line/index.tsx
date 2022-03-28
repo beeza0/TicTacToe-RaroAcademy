@@ -1,13 +1,7 @@
 import { FC } from 'react';
 import { LineContainer } from "./styles";
 import Square from '../Square';
-import { Game } from '../../models/models'
-
-interface ILineProps {
-    lineId: number,
-    gameState: Game,
-    changeGameState: (squareId: number) => void
-}
+import { ILineProps } from '../../models/models'
 
 const Line: FC<ILineProps> = ({lineId, gameState, changeGameState}) => {
 

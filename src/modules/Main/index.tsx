@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { MainContainer, GameTitle, GameContainer, RestartButton } from "./styles";
+import { MainContainer, GameTitle, ButtonContainer, RestartButton, EndGameSpan} from "./styles";
 import { Game } from '../../models/models'
 import intersection from '../../utils/intersection';
 import Line from '../../components/Line'
@@ -13,13 +13,11 @@ const Main: FC = () => {
     gameEnded: false,
     winner: '',  
     player1: {
-      name: '',
-      score: 0,
+      name: 'Player 1',
       moves: []
     },
     player2: {
-      name: '',
-      score: 0,
+      name: 'Player 2',
       moves: []
     } 
   })
@@ -34,7 +32,7 @@ const Main: FC = () => {
 
   useEffect(() => {
     if(checkIfWon()) {
-      setGameState({...gameState, gameEnded: true, winner: !gameState.firstPlayerTurn ? 'player1' : 'player2'})
+      setGameState({...gameState, gameEnded: true, winner: !gameState.firstPlayerTurn ? gameState.player1.name : gameState.player2.name})
     }    
   }, [gameState.player1, gameState.player2])
 
@@ -42,13 +40,13 @@ const Main: FC = () => {
     if(gameState.firstPlayerTurn) {
       let aux = gameState.player1.moves
       aux.push(squareId)
-      setGameState({...gameState, firstPlayerTurn: !gameState.firstPlayerTurn, player1: {...gameState.player1, moves: aux}})   
+      if(aux.length === 5) setGameState({...gameState, firstPlayerTurn: !gameState.firstPlayerTurn, gameEnded: true, player1: {...gameState.player1, moves: aux}})
+      else setGameState({...gameState, firstPlayerTurn: !gameState.firstPlayerTurn, player1: {...gameState.player1, moves: aux}})
     }
     else {
       let aux = gameState.player2.moves
       aux.push(squareId)
       setGameState({...gameState, firstPlayerTurn: !gameState.firstPlayerTurn, player2: {...gameState.player2, moves: aux}})   
-   
     }
   }
 
@@ -73,13 +71,14 @@ const Main: FC = () => {
   return (
     <MainContainer>
       <GameTitle>Tic Tac Toe</GameTitle>
-      {gameState.gameEnded && <div>CABOUUUUUUUUUUUUUUU, {gameState.winner} ganhou!!</div>}
-      <GameContainer>
-        {renderLines()}
-      </GameContainer>
-      <RestartButton onClick={restartGame}>
-        Restart
-      </RestartButton>
+      {renderLines()}
+      <ButtonContainer>
+        <RestartButton onClick={restartGame}>
+          Restart
+        </RestartButton>
+        {gameState.gameEnded && gameState.winner === '' && <EndGameSpan>Empate! Favor reiniciar o jogo</EndGameSpan>}
+        {gameState.gameEnded && !(gameState.winner === '') && <EndGameSpan>Fim de Jogo! {gameState.winner} ganhou!</EndGameSpan>}
+      </ButtonContainer>
     </MainContainer>
   );
 }
